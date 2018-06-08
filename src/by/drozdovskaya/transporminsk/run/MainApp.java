@@ -1,11 +1,16 @@
 package by.drozdovskaya.transporminsk.run;
 
-import by.drozdovskaya.transporminsk.entity.Bus;
-import by.drozdovskaya.transporminsk.entity.Helicopter;
-import by.drozdovskaya.transporminsk.entity.HighSpeedBoat;
-import by.drozdovskaya.transporminsk.entity.Subway;
-import by.drozdovskaya.transporminsk.entity.Taxi;
+import java.util.ArrayList;
+import java.util.List;
+
 import by.drozdovskaya.transporminsk.entity.Transport;
+import by.drozdovskaya.transporminsk.entity.air.Helicopter;
+import by.drozdovskaya.transporminsk.entity.auto.Bus;
+import by.drozdovskaya.transporminsk.entity.auto.Electrobus;
+import by.drozdovskaya.transporminsk.entity.auto.Taxi;
+import by.drozdovskaya.transporminsk.entity.railway.Subway;
+import by.drozdovskaya.transporminsk.entity.railway.Tram;
+import by.drozdovskaya.transporminsk.entity.water.HighSpeedBoat;
 import by.drozdovskaya.transporminsk.logic.LogicOfTransport;
 
 public class MainApp {
@@ -16,19 +21,20 @@ public class MainApp {
 		Transport transport3 = new HighSpeedBoat(150, "C", "D",50, 95, "tourism", 100);
 		Transport transport4 = new Helicopter(500, "A", "B",30, 117, 2, 6);
 		Transport transport5 = new Subway(90, "C", "D",100, 25, "Subway", 10, "Economy", true );
+		Transport transport6 = new Tram(40, "A", "D",100, 25, "Subway", 10, "Pantograph" );
+		Transport transport7 = new Electrobus(60, "A", "B",30, 19,"Belaz","electro","auto", 660 );
+		List<Transport> transport = new ArrayList<Transport>();
 		LogicOfTransport tr = new LogicOfTransport();
-		tr.getTransport().add(transport1);
-		tr.getTransport().add(transport3);
-		tr.getTransport().add(transport5);
-		tr.getTransport().add(transport4);
-		tr.getTransport().add(transport2);
-		tr.printTransport();
-		tr.sortBySpeed("A", "B");
-		tr.printTransport();
-		tr.sortByPrice();
-		tr.printTransport();
-		System.out.println();
-		transport1.moveTo();
+		transport.add(transport1);
+		transport.add(transport3);
+		transport.add(transport5);
+		transport.add(transport4);
+		transport.add(transport2);
+		transport.add(transport6);
+		transport.add(transport7);
+		tr.printTransport(transport);
+		tr.sortBySpeed(transport,"A", "B");
+		tr.sortByPrice(transport);
 	}
 
 }

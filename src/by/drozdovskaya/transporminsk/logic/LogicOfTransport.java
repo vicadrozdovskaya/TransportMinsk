@@ -1,80 +1,58 @@
 package by.drozdovskaya.transporminsk.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import by.drozdovskaya.transporminsk.entity.Transport;
 
 public class LogicOfTransport {
 
-	private List<Transport> transport;
-
 	public LogicOfTransport() {
-		this.transport = new ArrayList<Transport>();
+
 	}
 
-	public List<Transport> getTransport() {
-		return transport;
-	}
-
-	public void setTransport(List<Transport> transport) {
-		this.transport = transport;
-	}
-
-	public void printTransport() {
-		for (Transport t : this.transport) {
+	public void printTransport(List<Transport> transport) {
+		System.out.println("Print transport :");
+		for (Transport t : transport) {
 			System.out.println(t);
 		}
-		;
+		System.out.println();
 	}
 
-	public List<Transport> filterByPoints(String start, String end) {
-		for (int i = 0; i < this.transport.size() - 1; i++) {
+	public List<Transport> filterByPoints(List<Transport> transport, String start, String end) {
+		List<Transport> filteredTransport = new ArrayList<Transport>();
+		for (int i = 0; i < transport.size(); i++) {
+			if (transport.get(i).getStartStation().equals(start) && transport.get(i).getEndStation().equals(end)) {
+				filteredTransport.add(transport.get(i));
+			}
+		}
+		System.out.println("Sorted by destinations");
+		return filteredTransport;
+
+	}
+
+	public void sortBySpeed(List<Transport> transport, String begin, String end) {
+		List<Transport> sortBySpeed = new ArrayList<Transport>();
+		sortBySpeed = filterByPoints(transport, begin, end);
+		for (int i = 0; i < sortBySpeed.size() - 1; i++) {
 			boolean isSorted = false;
 			while (!isSorted) {
-				isSorted = true;
-				if (transport.get(i).getStartStation().equals(start) && transport.get(i).getEndStation().equals(end)) {
-					if (!transport.get(i).getStartStation().contains(transport.get(i + 1).getStartStation())) {
+			isSorted = true;
+					if (sortBySpeed.get(i).getSpeed() > sortBySpeed.get(i + 1).getSpeed()) {
 						isSorted = false;
-						Transport tr = transport.get(i);
-						transport.set(i, transport.get(i + 1));
-						transport.set(i + 1, tr);
+						Transport tr = sortBySpeed.get(i);
+						sortBySpeed.set(i, sortBySpeed.get(i + 1));
+						sortBySpeed.set(i + 1, tr);
 						if (i != 0)
 							i--;
-					}
-
 				}
 			}
 		}
-		System.out.println("Sorted by destinations\n");
-		return this.transport;
+		System.out.println("Sorted by Speed from " + begin + " to " + end + "\n");
+		this.printTransport(sortBySpeed);
 
 	}
 
-	public List<Transport> sortBySpeed(String begin, String end) {
-		filterByPoints(begin, end);
-		for (int i = 0; i < this.transport.size() - 1; i++) {
-			boolean isSorted = false;
-			while (!isSorted) {
-				isSorted = true;
-				if (transport.get(i).getStartStation().equals(begin) && transport.get(i).getEndStation().equals(end)) {
-					if (transport.get(i).getSpeed() > transport.get(i + 1).getSpeed()) {
-						isSorted = false;
-						Transport tr = transport.get(i);
-						transport.set(i, transport.get(i + 1));
-						transport.set(i + 1, tr);
-						if (i != 0)
-							i--;
-					}
-				}
-			}
-		}
-		System.out.println("Sorted by Speed\n");
-
-		return this.transport;
-	}
-
-	public List<Transport> sortByPrice() {
+	public void sortByPrice(List<Transport> transport) {
 		for (int i = 0; i < transport.size() - 1; i++) {
 			boolean isSorted = false;
 			while (!isSorted) {
@@ -90,7 +68,8 @@ public class LogicOfTransport {
 				}
 			}
 		}
-		return this.transport;
+		System.out.println("Sorted by Price\n");
+		this.printTransport(transport);
 	}
 
 }
